@@ -23,7 +23,7 @@ module RR
     end)
 
     attr_reader :times_called, :double_injection, :definition, :times_called_expectation
-
+    attr_reader :created_backtrace
     include Space::Reader
 
     def initialize(double_injection, definition)
@@ -34,6 +34,9 @@ module RR
       definition.double = self
       verify_method_signature if definition.verify_method_signature?
       double_injection.register_double self
+      @created_backtrace = caller[1..-1]
+      puts "*" * 80
+      puts "[debug][double] method_name: #{method_name}, double_injection: #{double_injection.inspect}, definition: #{definition.inspect}"
     end
 
     # Double#exact_match? returns true when the passed in arguments

@@ -10,7 +10,15 @@ module RR
       end
 
       def attempt?
-        times_matcher.attempt?(@times_called)
+        begin
+          times_matcher.attempt?(@times_called)
+        rescue => e
+          puts "!" * 80
+          puts "[debug][1] #{double.inspect}"
+          puts "-" * 80
+          puts "[debug][2] #{e.inspect}"
+          raise e
+        end
       end
 
       def attempt
@@ -26,6 +34,8 @@ module RR
 
       def verify!
         unless verify
+          puts "!" * 80
+          puts "[debug][3] #{double.inspect}"
           raise RR::Errors.build_error(:TimesCalledError, error_message, @verify_backtrace)
         end
       end
@@ -40,6 +50,8 @@ module RR
       end
 
       def verify_input_error
+        puts "!" * 80
+        puts "[debug][4] #{double.inspect}"
         raise RR::Errors.build_error(:TimesCalledError, error_message)
       end
 

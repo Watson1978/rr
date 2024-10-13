@@ -36,7 +36,7 @@ module RR
       double_injection.register_double self
       @created_backtrace = caller[1..-1]
       puts "*" * 80
-      puts "[debug][double] method_name: #{method_name}, double_injection: #{double_injection.inspect}, definition: #{definition.inspect}"
+      puts "[debug][double] method_name: #{method_name}, backtrace: subject_class: #{double_injection.subject_class}, backtrace: #{created_backtrace.inspect},"
     end
 
     # Double#exact_match? returns true when the passed in arguments

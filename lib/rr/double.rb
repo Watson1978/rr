@@ -1,3 +1,5 @@
+require 'objspace'
+
 module RR
   # RR::Double is the use case for a method call.
   # It has the ArgumentEqualityExpectation, TimesCalledExpectation,
@@ -35,8 +37,9 @@ module RR
       verify_method_signature if definition.verify_method_signature?
       double_injection.register_double self
       @created_backtrace = caller[1..-1]
-      puts "*" * 80
-      puts "[debug][double] method_name: #{method_name}, backtrace: subject_class: #{double_injection.subject_class}, backtrace: #{created_backtrace.inspect},"
+      puts "\n" + "*" * 80
+      puts "[debug][double] method_name: #{method_name}, backtrace: subject_class: #{double_injection.subject_class}, backtrace: #{created_backtrace.inspect}"
+      puts "[debug][double] allocation: #{ObjectSpace.allocation_sourcefile(double_injection.subject_class)}:#{ObjectSpace.allocation_sourceline(double_injection.subject_class)}"
     end
 
     # Double#exact_match? returns true when the passed in arguments
